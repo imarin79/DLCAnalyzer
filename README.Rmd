@@ -5,6 +5,8 @@ output:
     keep_md: true
     theme: united
     toc: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -46,7 +48,8 @@ source("R/DLCAnalyzer_Functions_final.R")
 ```
 
 ```{r, eval=FALSE}
-setwd("PathToDLCFolder")
+# setwd("PathToDLCFolder")
+
 source('R/DLCAnalyzer_Functions_final.R')
 ```
 
