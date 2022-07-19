@@ -48,15 +48,16 @@ source("R/DLCAnalyzer_Functions_final.R")
 ```
 
 ```{r, eval=FALSE}
-# setwd("PathToDLCFolder")
-
-source('R/DLCAnalyzer_Functions_final.R')
+setwd("~/DLCAnalyzer/R")
+source('DLCAnalyzer_Functions_final.R')
 ```
 
 To load a DLC .csv file (here an example file of an open field test (OFT) tracking) insert the path of the file (from the working directory):
 
 ```{r}
-Tracking <- ReadDLCDataFromCSV(file = "example/OFT/DLC_Data/OFT_3.csv", fps = 25)
+setwd("~/DLCAnalyzer/example/OFT/DLC_Data")
+Tracking <- ReadDLCDataFromCSV(file = "OFT_3.csv", fps = 25)
+View(Tracking)
 ```
 
 This command loads the DLCdata and orders it in an object that allows easy access and manipulation. It is crucial to set the correct frames per second (fps), otherwise many downstream metrics will be distorted. If you do not set fps it will be set to 1 frame per second!
@@ -96,7 +97,6 @@ PlotPointData(Tracking, points = c("nose","bodycentre","tailbase","neck"))
 
 As we can see this removed the artefacts in the data sufficiently
 
-
 Next, we want to calibrate our Tracking data to transform it from a pixel dimension into a metric dimension. In this case we measured the physical distance of the area in cm (42 x 42) which is span by the points `tl`, `tr`, `br` and `bl`. For this, we use:
 
 ```{r}
@@ -114,7 +114,7 @@ Here we will explore how we can perform an OFT (open field test) analysis on a s
 Let's start by loading and pre-processing the data:
 
 ```{r, results='hide'}
-Tracking <- ReadDLCDataFromCSV(file = "example/OFT/DLC_Data/OFT_3.csv", fps = 25)
+Tracking <- ReadDLCDataFromCSV(file = "OFT_3.csv", fps = 25)
 Tracking <- CleanTrackingData(Tracking, likelihoodcutoff = 0.95)
 Tracking <- CutTrackingData(Tracking,start = 100, end = 250)
 Tracking <- CalibrateTrackingData(Tracking, method = "area",in.metric = 42*42, points = c("tl","tr","br","bl"))
