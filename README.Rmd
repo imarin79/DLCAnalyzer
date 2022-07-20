@@ -42,11 +42,6 @@ While this package might be a bit harder to install it is only required for func
 ## Loading and processing a single file
 Download the contents of this repository and keep the folder structure unchanged. First, set your working directory to this specified folder and then ensure that the file with all the code is sourced
 
-```{r, include=FALSE}
-#source('R/DLCAnalyzer_Functions_final.R')
-source("R/DLCAnalyzer_Functions_final.R")
-```
-
 ```{r, eval=FALSE}
 setwd("~/DLCAnalyzer/R")
 source('DLCAnalyzer_Functions_final.R')
@@ -57,7 +52,7 @@ To load a DLC .csv file (here an example file of an open field test (OFT) tracki
 ```{r}
 setwd("~/DLCAnalyzer/example/OFT/DLC_Data")
 Tracking <- ReadDLCDataFromCSV(file = "OFT_3.csv", fps = 25)
-View(Tracking)
+#View(Tracking)
 ```
 
 This command loads the DLCdata and orders it in an object that allows easy access and manipulation. It is crucial to set the correct frames per second (fps), otherwise many downstream metrics will be distorted. If you do not set fps it will be set to 1 frame per second!
@@ -71,7 +66,8 @@ As we can see the object contains a sub-object '$data' that has multiple further
 Let's have a look at the point `bodycentre`:
 
 ```{r}
-head(Tracking$data$bodycentre)
+head(Tracking$data)
+head(Tracking$data$tl)
 ```
 
 As we can see the information from DLC (frame,x,y, and likelihood) of point `bodycentre` can be accessed easily
@@ -139,10 +135,12 @@ PlotZoneVisits(Tracking,point = c("bodycentre","nose","tailbase"))
 However, we might be interested in adding new zones that are independent of any method. If we would want to add 2 new triangular zones and only get a readout for them can do this with:
 
 ```{r}
+
 Tracking <- AddZones(Tracking,z = data.frame(my.zone.1 = c("tl","tr","centre"),
                                              my.zone.2 = c("bl","br","centre")))
 PlotZones(Tracking, zones=c("my.zone.1","my.zone.2", "arena"))
 PlotZoneVisits(Tracking,point = c("bodycentre","nose","tailbase"),zones = c("my.zone.1","my.zone.2"))
+
 ```
 
 In order to get metrics such as speed or movement we use:
